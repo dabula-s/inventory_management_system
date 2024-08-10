@@ -1,16 +1,15 @@
-from fastapi import Depends
 from fastapi import FastAPI
 
 from api.inventory.category.endpoints import router as category_router
 from api.inventory.item.endpoints import router as item_router
-from api.users.auth import auth_backend, current_active_user, fastapi_users
+from api.users.auth import auth_backend, fastapi_users
 from api.users.schemas import UserRead, UserCreate, UserUpdate
-from db.postgresql import User
 
-app = FastAPI()
+app = FastAPI(title='Inventory Management System API')
 
+# https://fastapi-users.github.io/fastapi-users/latest/configuration/routers/#available-routers
 app.include_router(
-    fastapi_users.get_auth_router(auth_backend, requires_verification=True),
+    fastapi_users.get_auth_router(auth_backend, requires_verification=True),  # require verification for auth requests
     prefix="/auth",
     tags=["auth"],
 )
@@ -34,11 +33,6 @@ app.include_router(
     prefix="/users",
     tags=["users"],
 )
-
-
-@app.get("/authenticated-route")
-async def authenticated_route(user: User = Depends(current_active_user)):
-    return {"message": f"Hello {user.email}!"}
 
 
 app.include_router(item_router)
