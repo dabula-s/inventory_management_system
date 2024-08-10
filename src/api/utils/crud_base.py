@@ -7,6 +7,9 @@ T = TypeVar('T')
 
 
 class CrudBase(ABC):
+    """
+    Base class for CRUD operations
+    """
     def __init__(self, session: AsyncSession) -> None:
         self.session = session
 

@@ -12,4 +12,5 @@ REDIS_HOST = os.getenv('REDIS_HOST', 'localhost')
 REDIS_PORT = os.getenv('REDIS_PORT', '6379')
 
 # API
+TOKEN_SECRET = os.getenv('TOKEN_SECRET', 'SECRET')
 LIFETIME_SECONDS = int(os.getenv('LIFETIME_SECONDS', '6000'))

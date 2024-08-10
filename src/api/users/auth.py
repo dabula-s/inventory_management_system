@@ -2,27 +2,22 @@ from typing import Optional
 
 from fastapi import Depends, Request
 from fastapi_users import BaseUserManager, FastAPIUsers, IntegerIDMixin
-from fastapi_users.authentication import (
-    AuthenticationBackend,
-    CookieTransport, BearerTransport,
-)
+from fastapi_users.authentication import AuthenticationBackend, BearerTransport
 from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from api.utils.redis import get_redis_strategy
 from db.postgresql import get_async_session, User
+from settings import TOKEN_SECRET
 
 
 async def get_user_db(session: AsyncSession = Depends(get_async_session)):
     yield SQLAlchemyUserDatabase(session, User)
 
 
-SECRET = "SECRET"
-
-
 class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
-    reset_password_token_secret = SECRET
-    verification_token_secret = SECRET
+    reset_password_token_secret = TOKEN_SECRET
+    verification_token_secret = TOKEN_SECRET
 
     async def on_after_register(self, user: User, request: Optional[Request] = None):
         print(f"User {user.id} has registered.")

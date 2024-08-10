@@ -34,6 +34,7 @@ class ItemWithCategory(Item):
     )
 
 
+# to avoid circular imports with Category
 from api.inventory.category.schemas import Category
 
 ItemWithCategory.model_rebuild()
