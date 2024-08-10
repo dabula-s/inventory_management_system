@@ -1,4 +1,4 @@
 .idea
-.env.example
-.env.test.example
+.env
+.env.test
 .env.test.local
