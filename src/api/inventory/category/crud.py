@@ -3,8 +3,12 @@ from typing import Sequence
 from sqlalchemy import select, update, delete
 from sqlalchemy.exc import IntegrityError
 
-from api.inventory.category.exceptions import CategoryNotFoundException, CategoryCreationError, CategoryUpdateError, \
-    CategoryDeleteError
+from api.inventory.category.exceptions import (
+    CategoryNotFoundException,
+    CategoryCreationError,
+    CategoryUpdateError,
+    CategoryDeleteError,
+)
 from api.utils.crud_base import CrudBase
 from db.postgresql import Category
 
