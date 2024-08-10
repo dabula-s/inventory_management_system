@@ -6,6 +6,7 @@ from httpx import AsyncClient, ASGITransport
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from sqlalchemy_utils import database_exists, create_database
 
+from api.users.auth import current_active_user, current_active_superuser
 from db.postgresql import sync_connection_url, async_connection_url, get_async_session
 from main import app
 
@@ -39,7 +40,16 @@ async def pg_session():
 
 @pytest.fixture(autouse=True)
 def override_app_dependency_get_db(pg_session):
-    async def get_db_override():
+    async def dep_override():
         yield pg_session
 
-    app.dependency_overrides[get_async_session] = get_db_override
+    app.dependency_overrides[get_async_session] = dep_override
+
+
+@pytest.fixture(autouse=True)
+def override_app_endpoints_security_dependencies():
+    async def dep_override():
+        return True
+
+    app.dependency_overrides[current_active_user] = dep_override
+    app.dependency_overrides[current_active_superuser] = dep_override
