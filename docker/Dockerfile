@@ -1,0 +1,11 @@
+FROM python:3.11.4-slim
+LABEL authors="Serghei.D"
+
+# Install python dependencies
+RUN pip install --no-cache-dir poetry
+COPY poetry.lock pyproject.toml /tmp/
+RUN cd /tmp && poetry config virtualenvs.create false && poetry install --no-dev
+
+COPY . /app
+
+WORKDIR /app

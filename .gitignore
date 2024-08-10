@@ -1,0 +1,4 @@
+.idea
+.env.example
+.env.test.example
+.env.test.local

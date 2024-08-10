@@ -1,0 +1,39 @@
+services:
+  postgresql:
+    image: postgres:16-alpine
+    container_name: postgres-service
+    hostname: postgresql
+    restart: always
+    volumes:
+      - /var/db/data/postgresql:/var/lib/postgresql
+    env_file:
+      - .env
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:latest
+    container_name: redis-service
+    hostname: redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+  api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.dev
+    container_name: api-service
+    command: /bin/bash docker/entrypoint.sh --reload
+    env_file:
+      - .env
+    environment:
+      - PYTHONPATH=:src
+    restart: on-failure
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgresql
+      - redis
