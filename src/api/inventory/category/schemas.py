@@ -1,8 +1,9 @@
 from __future__ import annotations
+
 from typing import Optional
 
 from fastapi import Query
-from pydantic import BaseModel, Field, ConfigDict, root_validator, model_validator
+from pydantic import BaseModel, Field, ConfigDict, model_validator
 
 
 class CategoryBase(BaseModel):
@@ -29,8 +30,6 @@ CategoryWithItems.model_rebuild()
 
 class CreateCategoryRequestSchema(CategoryBase):
     ...
-    # name: str = Field(...)
-    # description: Optional[str] = Field(None)
 
 
 class CreateCategoryResponseSchema(Category):

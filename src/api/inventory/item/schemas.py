@@ -1,7 +1,8 @@
 from __future__ import annotations
+
 from typing import Optional
 
-from fastapi import Query, Body
+from fastapi import Query
 from pydantic import BaseModel, Field, ConfigDict, computed_field, model_validator
 
 
@@ -19,7 +20,7 @@ class Item(ItemBase):
 
 class ItemWithCategory(Item):
     category_id: Optional[int] = Field(None, exclude=True)
-    category: Optional[Category] = Field(None, exclude=True)
+    category: Optional['Category'] = Field(None, exclude=True)
 
     @computed_field
     def category_name(self) -> Optional[str]:
